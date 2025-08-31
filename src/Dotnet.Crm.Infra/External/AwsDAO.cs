@@ -38,6 +38,8 @@ namespace Dotnet.Crm.Infra.External
 
         public async Task PublishProposalSentToSignNotificationAsync(ProposalModel proposal)
         {
+            if (EnvironmentKey.TypeInformation == EnvironmentKey.Type.DEV)
+                return;
             try
             {
                 var message = JsonConvert.SerializeObject(new
@@ -64,6 +66,8 @@ namespace Dotnet.Crm.Infra.External
 
         public async Task PublishProposalSentToSignWebhookAsync(ProposalModel proposal)
         {
+            if (EnvironmentKey.TypeInformation == EnvironmentKey.Type.DEV)
+                return;
             try
             {
                 var message = JsonConvert.SerializeObject(new
@@ -90,6 +94,8 @@ namespace Dotnet.Crm.Infra.External
 
         public async Task PublishStatusUpdatedNotificationAsync(ProposalModel proposal)
         {
+            if (EnvironmentKey.TypeInformation == EnvironmentKey.Type.DEV)
+                return;
             try
             {
                 var message = JsonConvert.SerializeObject(new
@@ -116,6 +122,8 @@ namespace Dotnet.Crm.Infra.External
 
         public async Task PublishStatusUpdatedWebhookAsync(ProposalModel proposal)
         {
+            if (EnvironmentKey.TypeInformation == EnvironmentKey.Type.DEV)
+                return;
             try
             {
                 var message = JsonConvert.SerializeObject(new

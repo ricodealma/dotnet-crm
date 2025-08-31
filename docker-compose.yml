@@ -11,6 +11,10 @@ services:
       AWS_SECRET_MANAGER_REGION: us-east-1
       REDIS_CACHE_ENTITY_EXPIRATION_HOURS: 1
 
+      AWS_ACCESS_KEY_ID: xxxx
+      AWS_SECRET_ACCESS_KEY: xxxx
+      AWS_REGION: us-east-1
+
       SQL_SERVER: mysql
       SQL_USER: root
       SQL_PASSWORD: root
@@ -28,12 +32,16 @@ services:
   sign:
     image: dotnetsign:latest
     ports:
-      - '8081:8081'
+      - '8081:8080'
     environment:
       APP_ENV: DEV
       AWS_SECRET_MANAGER_NAME: /dev
       AWS_SECRET_MANAGER_REGION: us-east-1
       REDIS_CACHE_ENTITY_EXPIRATION_HOURS: 1
+
+      AWS_ACCESS_KEY_ID: xxxx
+      AWS_SECRET_ACCESS_KEY: xxxx
+      AWS_REGION: us-east-1
 
       SQL_SERVER: mysql
       SQL_USER: root
