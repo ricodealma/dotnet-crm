@@ -28,7 +28,6 @@ namespace Dotnet.Crm.Infra.Repositories
             if (result is null)
                 return new(null, error);
 
-            _distributedMemoryCacheDAO.RemoveAllGroups();
             return new(result.ToDomain(), new());
         }
 
@@ -49,7 +48,7 @@ namespace Dotnet.Crm.Infra.Repositories
             _distributedMemoryCacheDAO.SetValue(
                 $"{proposalDTO.Id}",
                 JsonConvert.SerializeObject(proposalDTO),
-                                TimeSpan.FromMinutes(_environmentKey.RedisInformation.CacheExpirationTime));
+                                TimeSpan.FromHours(_environmentKey.RedisInformation.CacheExpirationHours));
 
             return new(proposalDTO.ToDomain(), new());
         }
@@ -60,6 +59,13 @@ namespace Dotnet.Crm.Infra.Repositories
 
             if (updatedProposal is null)
                 return new(null, updateError);
+
+            _distributedMemoryCacheDAO.DeleteValue(id.ToString());
+
+            _distributedMemoryCacheDAO.SetValue(
+                $"{updatedProposal.Id}",
+                JsonConvert.SerializeObject(updatedProposal),
+                                TimeSpan.FromHours(_environmentKey.RedisInformation.CacheExpirationHours));
 
             return new(updatedProposal.ToDomain(), new());
         }

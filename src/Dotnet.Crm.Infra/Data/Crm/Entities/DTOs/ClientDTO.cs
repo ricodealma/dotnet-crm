@@ -2,7 +2,7 @@
 
 namespace Dotnet.Crm.Infra.Data.Crm.Entities.DTOs
 {
-    [Table("Client", Schema = "Crm")]
+    [Table("Client")]
     public record ClientDTO
     {
         public Guid Id { get; set; }

@@ -5,9 +5,9 @@ public sealed class Constant
     public const string APP_ENV_DEV = "DEV";
     public const string APP_ENV_QA = "QA";
     public const string APP_ENV_PROD = "PROD";
-    public const string APP_GATEWAY_REQUEST_HEADER_KEY = "Gateway-Authentication";
+    public const string APP_REQUEST_HEADER_KEY = "X-Api-Header";
     public const string APP_STATUS_TO_NOTIFICATE = "APP_STATUS_TO_NOTIFICATE";
-    public const string AWS_SECRET_MANAGER_GATEWAY_TOKEN = "gateway-token";
+    public const string AWS_SECRET_MANAGER_HEADER_TOKEN = "x-api-header";
 
     public const string APP_FILTER_SORT_CRITERIA_ASC = "asc";
     public const string APP_FILTER_SORT_CRITERIA_DESC = "desc";
@@ -35,5 +35,5 @@ public sealed class Constant
     public const string AWS_SECRET_MANAGER_REDIS_USER = "redis-user";
     public const string AWS_SECRET_MANAGER_REDIS_PASSWORD = "redis-password";
 
-    public const string REDIS_CACHE_ENTITY_EXPIRATION_TIME = "REDIS_CACHE_ENTITY_EXPIRATION_TIME";
+    public const string REDIS_CACHE_ENTITY_EXPIRATION_HOURS = "REDIS_CACHE_ENTITY_EXPIRATION_HOURS";
 }

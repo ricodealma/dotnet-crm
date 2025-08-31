@@ -14,12 +14,8 @@ namespace Dotnet.Crm.App.Extensions
             environmentKey.AwsInformation.SecretManagerInformation.Region =
                  EnvironmentKey.GetVariable<string>(Constant.AWS_SECRET_MANAGER_REGION, configuration);
 
-            environmentKey.RedisInformation.CacheExpirationTime =
-                EnvironmentKey.GetVariable<int>(Constant.REDIS_CACHE_ENTITY_EXPIRATION_TIME, configuration); ;
-
-            environmentKey.AppInformation.StatusToNotificate =
-                EnvironmentKey.GetVariable<string>(Constant.APP_STATUS_TO_NOTIFICATE, configuration);
-
+            environmentKey.RedisInformation.CacheExpirationHours =
+                EnvironmentKey.GetVariable<int>(Constant.REDIS_CACHE_ENTITY_EXPIRATION_HOURS, configuration);
         }
 
         private static async Task FillSecretManagerInformation(EnvironmentKey environmentKey, IApplicationBuilder applicationBuilder, IConfiguration configuration)
@@ -35,8 +31,8 @@ namespace Dotnet.Crm.App.Extensions
                     environmentKey.AwsInformation.SecretManagerInformation.Region);
             }
 
-            environmentKey.AppInformation.GatewayToken = EnvironmentKey.GetVariable<string>
-                (Constant.AWS_SECRET_MANAGER_GATEWAY_TOKEN, configuration, secrets);
+            environmentKey.AppInformation.HeaderKey = EnvironmentKey.GetVariable<string>
+                (Constant.AWS_SECRET_MANAGER_HEADER_TOKEN, configuration, secrets);
 
             environmentKey.MySqlInformation.Server = EnvironmentKey.GetVariable<string>
                 (Constant.AWS_SECRET_MANAGER_SQL_SERVER, configuration, secrets);

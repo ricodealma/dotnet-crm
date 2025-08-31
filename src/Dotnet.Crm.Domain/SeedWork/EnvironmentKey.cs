@@ -39,7 +39,7 @@ namespace Dotnet.Crm.Domain.SeedWork
             {
                 get
                 {
-                    return $"SERVER={Server};UID={UserId};PWD={Password};DATABASE={DataBase};TrustServerCertificate=True;";
+                    return $"server={Server};port=3306;uid={UserId};pwd={Password};database={DataBase}";
                 }
             }
         }
@@ -53,8 +53,7 @@ namespace Dotnet.Crm.Domain.SeedWork
 
         public sealed class App
         {
-            public string GatewayToken { get; set; } = string.Empty;
-            public string StatusToNotificate { get; set; } = string.Empty;
+            public string HeaderKey { get; set; } = string.Empty;
         }
 
         public sealed class Redis
@@ -62,13 +61,13 @@ namespace Dotnet.Crm.Domain.SeedWork
             public string Server { get; set; } = string.Empty;
             public string User { get; set; } = string.Empty;
             public string Password { get; set; } = string.Empty;
-            public int CacheExpirationTime { get; set; } = default;
+            public int CacheExpirationHours { get; set; } = default;
 
             public string ConnectionString
             {
                 get
                 {
-                    return $"{Server}:6379,user={User},password={Password},ssl=True";
+                    return $"{Server}:6379"; // $"{Server}:6379,user={User},password={Password},ssl=True";
                 }
             }
         }
@@ -114,7 +113,8 @@ namespace Dotnet.Crm.Domain.SeedWork
                 }
                 else
                 {
-                    return (T)Convert.ChangeType(configuration[constant] ?? string.Empty, typeof(T));
+                    var envKey = constant.Replace("-", "_").ToUpperInvariant();
+                    return (T)Convert.ChangeType(configuration[envKey] ?? string.Empty, typeof(T));
                 }
             }
             catch (Exception)

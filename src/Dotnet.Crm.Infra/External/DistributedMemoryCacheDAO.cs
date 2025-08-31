@@ -60,5 +60,23 @@ namespace Dotnet.Crm.Infra.External
                 return false;
             }
         }
+        public void DeleteValue(string key)
+        {
+            try
+            {
+                if (_redisDatabase is null)
+                {
+                    _logger.LogError("Redis is unavailable. As a result, delete value operation will be skipped.");
+                    return;
+                }
+
+                string fullKey = $"{Constant.APP_REDIS_CACHE_ENTITY_BASE_NAME}{key}";
+                _redisDatabase.KeyDelete(fullKey, CommandFlags.FireAndForget);
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e.Message, JsonConvert.SerializeObject(e));
+            }
+        }
     }
 }

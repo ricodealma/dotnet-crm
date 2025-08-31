@@ -89,7 +89,11 @@ namespace Dotnet.Crm.Infra.Data.Crm.Entities.DAOs
         {
             try
             {
-                var proposal = await _crmContext.Proposal.FindAsync(proposalId);
+                var proposal = await _crmContext.Proposal
+                    .Include(proposal => proposal.Status)
+                    .Include(proposal => proposal.Items)
+                    .Include(proposal => proposal.Client)
+                    .FirstOrDefaultAsync(proposal => proposal.Id == proposalId);
 
                 if (proposal == null)
                     return Tuple.Create<ProposalDTO?, ErrorResult>(null, new()

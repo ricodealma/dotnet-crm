@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Dotnet.Crm.Infra.Data.Crm.Entities.DTOs
 {
-    [Table("Item", Schema = "Crm")]
+    [Table("Items")]
     public record ItemDTO
     {
         public Guid Id { get; set; }

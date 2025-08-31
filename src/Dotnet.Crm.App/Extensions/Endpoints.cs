@@ -25,7 +25,7 @@ namespace Dotnet.Crm.App.Extensions
             endpointRouteBuilder.MapPost("/v1/proposal", PostProposal);
             endpointRouteBuilder.MapPost("/v1/proposal/{id}/send-to-sign", PostProposalToSign);
             endpointRouteBuilder.MapPost("/v1/proposal/{id}/callbacks/signed", PostSignCallback);
-            endpointRouteBuilder.MapGet("/v1/proposal/single", GetProposalById);
+            endpointRouteBuilder.MapGet("/v1/proposal/{id}", GetProposalById);
         }
 
         [SwaggerOperation(
@@ -106,9 +106,9 @@ namespace Dotnet.Crm.App.Extensions
         )]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public static async Task<IResult> GetProposalById([FromServices] ICrmService crmService, [FromRoute] Guid proposalId)
+        public static async Task<IResult> GetProposalById([FromServices] ICrmService crmService, [FromRoute] Guid id)
         {
-            var result = await crmService.SelectProposalByIdAsync(proposalId);
+            var result = await crmService.SelectProposalByIdAsync(id);
 
             if (result.Item2 is not null && result.Item2.Error)
                 return GenerateErrorResult(result.Item2);

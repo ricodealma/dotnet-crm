@@ -43,7 +43,5 @@ namespace Dotnet.Crm.Domain.SeedWork.Mappers
 
             return proposalResponse;
         }
-
-        public static List<ProposalResponse> ToResponse(this List<ProposalModel> proposalDTOs) => proposalDTOs.Select(ToResponse).ToList();
     }
 }

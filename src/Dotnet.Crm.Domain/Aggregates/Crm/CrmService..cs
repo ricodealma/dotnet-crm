@@ -49,11 +49,10 @@ namespace Dotnet.Crm.Domain.Aggregates.Crm
 
             await Task.WhenAll(
                 _awsService.PublishProposalSentToSignNotificationAsync(proposal),
-                _awsService.PublishProposalSentToSignWebhookAsync(proposal),
-                UpdateStatusAsync(id, ProposalStatusEnum.SentForSignature)
+                _awsService.PublishProposalSentToSignWebhookAsync(proposal)
             );
 
-            return new(proposal.ToResponse(), proposalError);
+            return await UpdateStatusAsync(id, ProposalStatusEnum.SentForSignature);
         }
         public async Task<Tuple<ProposalResponse?, ErrorResult>> PostProposalSigned(Guid id)
         {
