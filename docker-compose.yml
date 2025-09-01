@@ -1,0 +1,96 @@
+version: '3.8'
+
+services:
+  crm:
+    image: dotnetcrm:latest
+    ports:
+      - '8080:8080'
+    environment:
+      APP_ENV: DEV
+      AWS_SECRET_MANAGER_NAME: /dev
+      AWS_SECRET_MANAGER_REGION: us-east-1
+      REDIS_CACHE_ENTITY_EXPIRATION_HOURS: 1
+
+      AWS_ACCESS_KEY_ID: xxxx
+      AWS_SECRET_ACCESS_KEY: xxxx
+      AWS_REGION: us-east-1
+
+      SQL_SERVER: mysql
+      SQL_USER: root
+      SQL_PASSWORD: root
+      SQL_DATABASE: crm
+      X_API_HEADER: 9f3c5a8d3b6e4f1ab2d3e7c9a1f0b3d4c5e6f7a8b9c0d1e2f3a4b5c6d7e8f9a0
+      REDIS_SERVER: redis
+      REDIS_USER: dotnet-sign
+      REDIS_PASSWORD: xxx
+      NOTIFICATION_TOPIC_ARN: arn:aws:sns:us-east-1:123456789101:dotnet-crm-sns.fifo
+      NOTIFICATION_WEBHOOK_TOPIC_ARN: arn:aws:sns:us-east-1:123456789101:dotnet-crm-webhook-sns.fifo
+    depends_on:
+      - mysql
+      - redis
+
+  sign:
+    image: dotnetsign:latest
+    ports:
+      - '8081:8080'
+    environment:
+      APP_ENV: DEV
+      AWS_SECRET_MANAGER_NAME: /dev
+      AWS_SECRET_MANAGER_REGION: us-east-1
+      REDIS_CACHE_ENTITY_EXPIRATION_HOURS: 1
+
+      AWS_ACCESS_KEY_ID: xxxx
+      AWS_SECRET_ACCESS_KEY: xxxx
+      AWS_REGION: us-east-1
+
+      SQL_SERVER: mysql
+      SQL_USER: root
+      SQL_PASSWORD: root
+      SQL_DATABASE: sign
+      X_API_HEADER: 9f3c5a8d3b6e4f1ab2d3e7c9a1f0b3d4c5e6f7a8b9c0d1e2f3a4b5c6d7e8f9a0
+      REDIS_SERVER: redis
+      REDIS_USER: dotnet-sign
+      REDIS_PASSWORD: xxx
+      NOTIFICATION_TOPIC_ARN: arn:aws:sns:us-east-1:123456789101:dotnet-crm-sns.fifo
+      NOTIFICATION_WEBHOOK_TOPIC_ARN: arn:aws:sns:us-east-1:123456789101:dotnet-crm-webhook-sns.fifo
+    depends_on:
+      - mysql
+      - redis
+
+  redis:
+    image: redis:7
+    ports:
+      - '6379:6379'
+
+  mysql:
+    image: mysql:8
+    container_name: mysql
+    restart: always
+    ports:
+      - '3306:3306'
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+    healthcheck:
+      test: ['CMD', 'mysqladmin', 'ping', '-h', 'localhost', '-proot']
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+  mysql-init:
+    image: mysql:8
+    depends_on:
+      mysql:
+        condition: service_healthy
+    entrypoint: >
+      bash -c "
+        echo 'Aguardando MySQL iniciar...';
+        until mysqladmin ping -h mysql -proot --silent; do
+          sleep 2;
+        done;
+        echo 'Executando scripts SQL...';
+        mysql -h mysql -uroot -proot < /scripts/01-crm.sql;
+        mysql -h mysql -uroot -proot < /scripts/02-sign.sql;
+        echo 'Scripts executados com sucesso.';"
+    volumes:
+      - ./crm.sql:/scripts/01-crm.sql
+      - ./sign.sql:/scripts/02-sign.sql
