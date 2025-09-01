@@ -10,9 +10,8 @@ namespace Dotnet.Crm.Infra.Repositories
 
         public async Task<Dictionary<string, string>> SelectSecretAsync(string? secret = null, string? region = null) => await _awsDao.GetSecretsFromSecretManagerAsync(secret, region);
         public async Task PublishProposalSentToSignNotificationAsync(ProposalModel proposal) => await _awsDao.PublishProposalSentToSignNotificationAsync(proposal);
-        public async Task PublishProposalSentToSignWebhookAsync(ProposalModel proposal) => await _awsDao.PublishProposalSentToSignWebhookAsync(proposal);
         public async Task PublishStatusUpdatedNotificationAsync(ProposalModel proposal) => await _awsDao.PublishStatusUpdatedNotificationAsync(proposal);
-        public async Task PublishStatusUpdatedWebhookAsync(ProposalModel proposal) => await _awsDao.PublishStatusUpdatedWebhookAsync(proposal);
+
     }
 }
 
