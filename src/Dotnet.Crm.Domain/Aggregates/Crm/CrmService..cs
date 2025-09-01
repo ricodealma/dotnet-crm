@@ -47,10 +47,8 @@ namespace Dotnet.Crm.Domain.Aggregates.Crm
             if (proposal is null)
                 return new(null, proposalError);
 
-            await Task.WhenAll(
-                _awsService.PublishProposalSentToSignNotificationAsync(proposal),
-                _awsService.PublishProposalSentToSignWebhookAsync(proposal)
-            );
+            await _awsService.PublishProposalSentToSignNotificationAsync(proposal);
+
 
             return await UpdateStatusAsync(id, ProposalStatusEnum.SentForSignature);
         }
@@ -67,12 +65,13 @@ namespace Dotnet.Crm.Domain.Aggregates.Crm
         public async Task<Tuple<ProposalResponse?, ErrorResult>> UpdateStatusAsync(Guid id, ProposalStatusEnum request)
         {
             var (updateResult, updateError) = await _proposalRepository.UpdateProposalStatusAsync(id, request);
+
             if (updateResult is null)
                 return new(null, updateError);
 
-            var updateResponse = updateResult.ToResponse();
+            await _awsService.PublishStatusUpdatedNotificationAsync(updateResult);
 
-            return new(updateResponse, new());
+            return new(updateResult.ToResponse(), new());
         }
     }
 }

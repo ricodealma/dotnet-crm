@@ -18,7 +18,6 @@ namespace Dotnet.Crm.Domain.SeedWork
             public sealed class SimpleNotificationService
             {
                 public string NotificationTopicArn { get; set; } = string.Empty;
-                public string NotificationWebhookTopicArn { get; set; } = string.Empty;
             }
 
             public sealed class SecretManager

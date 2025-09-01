@@ -6,8 +6,6 @@ namespace Dotnet.Crm.Infra.External
     {
         Task<Dictionary<string, string>> GetSecretsFromSecretManagerAsync(string? secret = null, string? region = null);
         Task PublishProposalSentToSignNotificationAsync(ProposalModel proposal);
-        Task PublishProposalSentToSignWebhookAsync(ProposalModel proposal);
         Task PublishStatusUpdatedNotificationAsync(ProposalModel proposal);
-        Task PublishStatusUpdatedWebhookAsync(ProposalModel proposal);
     }
 }

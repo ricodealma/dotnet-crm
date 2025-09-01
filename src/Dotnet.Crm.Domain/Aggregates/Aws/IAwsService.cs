@@ -6,8 +6,6 @@ namespace Dotnet.Crm.Domain.Aggregates.Aws
     {
         Task<Dictionary<string, string>> SelectSecretAsync(string? secret = null, string? region = null);
         Task PublishProposalSentToSignNotificationAsync(ProposalModel proposal);
-        Task PublishProposalSentToSignWebhookAsync(ProposalModel proposal);
         Task PublishStatusUpdatedNotificationAsync(ProposalModel proposal);
-        Task PublishStatusUpdatedWebhookAsync(ProposalModel proposal);
     }
 }

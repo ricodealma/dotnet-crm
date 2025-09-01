@@ -26,7 +26,6 @@ public sealed class Constant
     public const string AWS_SECRET_MANAGER_SQL_PASSWORD = "sql-password";
     public const string AWS_SECRET_MANAGER_SQL_DATABASE = "sql-database";
     public const string AWS_SNS_NOTIFICATION_TOPIC_ARN = "notification-topic-arn";
-    public const string AWS_SNS_NOTIFICATION_WEBHOOK_TOPIC_ARN = "notification-webhook-topic-arn";
 
     public const string AWS_SECRET_MANAGER_NAME = "AWS_SECRET_MANAGER_NAME";
     public const string AWS_SECRET_MANAGER_REGION = "AWS_SECRET_MANAGER_REGION";

@@ -46,9 +46,6 @@ namespace Dotnet.Crm.App.Extensions
             environmentKey.MySqlInformation.Password = EnvironmentKey.GetVariable<string>
                 (Constant.AWS_SECRET_MANAGER_SQL_PASSWORD, configuration, secrets);
 
-            environmentKey.AwsInformation.SNSInformation.NotificationWebhookTopicArn = EnvironmentKey.GetVariable<string>
-                (Constant.AWS_SNS_NOTIFICATION_WEBHOOK_TOPIC_ARN, configuration, secrets);
-
             environmentKey.AwsInformation.SNSInformation.NotificationTopicArn = EnvironmentKey.GetVariable<string>
                 (Constant.AWS_SNS_NOTIFICATION_TOPIC_ARN, configuration, secrets);
 
