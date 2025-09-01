@@ -64,34 +64,6 @@ namespace Dotnet.Crm.Infra.External
             }
         }
 
-        public async Task PublishProposalSentToSignWebhookAsync(ProposalModel proposal)
-        {
-            if (EnvironmentKey.TypeInformation == EnvironmentKey.Type.DEV)
-                return;
-            try
-            {
-                var message = JsonConvert.SerializeObject(new
-                {
-                    EventType = "ProposalSentToSign",
-                    Data = proposal,
-                    Timestamp = DateTime.UtcNow
-                });
-
-                var webhookRequest = new PublishRequest
-                {
-                    TopicArn = _environmentKey.AwsInformation.SNSInformation.NotificationWebhookTopicArn,
-                    Message = message,
-                    MessageGroupId = proposal.Id.ToString(),
-                };
-
-                await _snsClient.PublishAsync(webhookRequest);
-            }
-            catch (Exception e)
-            {
-                _logger.LogError(JsonConvert.SerializeObject(e));
-            }
-        }
-
         public async Task PublishStatusUpdatedNotificationAsync(ProposalModel proposal)
         {
             if (EnvironmentKey.TypeInformation == EnvironmentKey.Type.DEV)
@@ -113,34 +85,6 @@ namespace Dotnet.Crm.Infra.External
                 };
 
                 await _snsClient.PublishAsync(notificationRequest);
-            }
-            catch (Exception e)
-            {
-                _logger.LogError(JsonConvert.SerializeObject(e));
-            }
-        }
-
-        public async Task PublishStatusUpdatedWebhookAsync(ProposalModel proposal)
-        {
-            if (EnvironmentKey.TypeInformation == EnvironmentKey.Type.DEV)
-                return;
-            try
-            {
-                var message = JsonConvert.SerializeObject(new
-                {
-                    EventType = "StatusUpdate",
-                    Data = proposal,
-                    Timestamp = DateTime.UtcNow
-                });
-
-                var webhookRequest = new PublishRequest
-                {
-                    TopicArn = _environmentKey.AwsInformation.SNSInformation.NotificationWebhookTopicArn,
-                    Message = message,
-                    MessageGroupId = proposal.Id.ToString(),
-                };
-
-                await _snsClient.PublishAsync(webhookRequest);
             }
             catch (Exception e)
             {
